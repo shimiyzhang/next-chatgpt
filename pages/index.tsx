@@ -14,6 +14,8 @@ export default function Home() {
   const [parentMessageId, setParentMessageId] = useState('')
 
   const handleSubmit = async () => {
+    console.log(process)
+
     setList([
       ...list,
       {
@@ -22,16 +24,17 @@ export default function Home() {
       },
     ])
     setLoading(true)
-    const response = await fetch(chatGPT, {
+    const response = await fetch('/api/chatGPT', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        message: prompt,
-        parentMessageId,
+        prompt: prompt,
+        // parentMessageId,
       }),
     })
+
     const data = await response.json()
     setParentMessageId(data.parentMessageId)
     const text = await markdownToHtml(data.text)

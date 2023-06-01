@@ -9,14 +9,18 @@ function getOpenAI() {
   return new OpenAIApi(configuration)
 }
 
-export const chatGPT = async (req: NextApiRequest, res: NextApiResponse) => {
-  const openai = getOpenAI()
-  const { prompt } = req.body
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  try {
+    const openai = getOpenAI()
+    const { prompt } = req.body
 
-  const completion = await openai.createCompletion({
-    model: 'gpt-3.5-turboprop-chatbot',
-    prompt: prompt,
-  })
+    const completion = await openai.createCompletion({
+      model: 'gpt-3.5-turboprop-chatbot',
+      prompt: prompt,
+    })
 
-  res.status(200).json(completion)
+    res.status(200).json(completion)
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred' })
+  }
 }
