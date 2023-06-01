@@ -49,6 +49,11 @@ export default function ButtomForm({ prompt, setPrompt, handleSubmit }: Props) {
               className="m-0 h-6 max-h-[200px] w-full resize-none border-0 bg-transparent p-0 pl-2 pr-7 outline-none focus:ring-0 focus-visible:ring-0 md:pl-0"
               value={prompt}
               onInput={handleInput}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  submit(e)
+                }
+              }}
             ></textarea>
             <button
               className="absolute bottom-1.5 right-1 rounded-md p-1 text-gray-500 hover:bg-gray-100 disabled:opacity-40 disabled:hover:bg-transparent md:bottom-2.5 md:right-2"

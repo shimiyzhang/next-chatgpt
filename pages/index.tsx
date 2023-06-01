@@ -10,7 +10,7 @@ const chatGPT = 'https://rip4ge.laf.dev/chatGPT'
 export default function Home() {
   const [loading, setLoading] = useState(false)
   const [prompt, setPrompt] = useState('')
-  const [list, setList] = useState<{ name: string; text: string }[]>([])
+  const [list, setList] = useState<{ name: string; text: string; error?: boolean }[]>([])
   const [parentMessageId, setParentMessageId] = useState('')
 
   const handleSubmit = async () => {
@@ -22,6 +22,7 @@ export default function Home() {
       },
     ])
     setLoading(true)
+
     const response = await fetch(chatGPT, {
       method: 'POST',
       headers: {
@@ -33,18 +34,30 @@ export default function Home() {
       }),
     })
 
-    const data = await response.json()
-    setParentMessageId(data.parentMessageId)
-    const text = await markdownToHtml(data.text)
-    setList((prev) => [
-      ...prev,
-      {
-        name: 'chatGPT',
-        text,
-      },
-    ])
+    if (response.ok) {
+      const data = await response.json()
+      setParentMessageId(data.parentMessageId)
+      const text = await markdownToHtml(data.text)
+      setList((prev) => [
+        ...prev,
+        {
+          name: 'chatGPT',
+          text,
+        },
+      ])
+    } else {
+      setList((prev) => [
+        ...prev,
+        {
+          name: 'chatGPT',
+          text: 'Something went wrong, please try again later.',
+          error: true,
+        },
+      ])
+    }
     setLoading(false)
   }
+
   return (
     <>
       <Head>
@@ -53,7 +66,7 @@ export default function Home() {
         <meta name="description" content="For personal testing chatGPT" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <main className="flex h-screen w-full flex-col items-center justify-start overflow-y-auto overflow-x-hidden p-4">
+      <main className="flex h-screen w-full flex-col items-center justify-start overflow-y-auto p-4">
         {loading && <Loading />}
         {list.length === 0 && (
           <div className="flex h-full w-full flex-col items-center justify-center gap-2">
@@ -66,7 +79,7 @@ export default function Home() {
             </h1>
           </div>
         )}
-        <div className="mb-10 w-full max-w-3xl">
+        <div className="mb-10 w-full max-w-3xl md:mb-16">
           {list.map((item, index) => (
             <div
               key={index}
@@ -87,7 +100,10 @@ export default function Home() {
               </div>
               <div className="flex flex-col overflow-auto">
                 <span className="text-sm text-gray-400">{item.name}</span>
-                <span className="text-base" dangerouslySetInnerHTML={{ __html: item.text }}></span>
+                <span
+                  className={`${item.error ? 'text-red-500' : ''} text-base`}
+                  dangerouslySetInnerHTML={{ __html: item.text }}
+                ></span>
               </div>
             </div>
           ))}
