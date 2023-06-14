@@ -103,10 +103,10 @@ export default function Home() {
         <meta name="description" content="For personal testing chatGPT" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <main className="flex h-screen w-full flex-col items-center justify-start p-4">
+      <main className="flex h-full w-full flex-col items-center justify-start p-4">
         {loading && <Loading />}
         {list.length === 0 ? (
-          <div className="flex h-full w-full flex-col items-center justify-center gap-2">
+          <div className="absolute bottom-0 left-0 right-0 top-0 flex h-full w-full flex-col items-center justify-center gap-2">
             <ChatGPTIcon className="mb-4 h-10 w-10" />
             <h1 className="mb-10 ml-auto mr-auto flex items-center justify-center gap-2 text-center text-4xl font-semibold text-gray-500 first-letter:sm:mb-16">
               ChatGPT
@@ -116,7 +116,7 @@ export default function Home() {
             </h1>
           </div>
         ) : (
-          <div className="mb-16 w-full max-w-3xl md:mb-16">
+          <div className="mb-16 w-full max-w-3xl md:mb-20">
             {list.map((item, index) => (
               <div
                 key={index}
