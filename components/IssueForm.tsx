@@ -35,7 +35,7 @@ export default function ButtomForm({ prompt, setPrompt, handleSubmit }: Props) {
   }
 
   return (
-    <div className="md:bg-vert-light-gradient absolute bottom-0 left-0 w-full border-t bg-white pt-2 md:border-t-0 md:border-transparent md:!bg-transparent">
+    <div className="md:bg-vert-light-gradient fixed bottom-0 left-0 w-full border-t bg-white pt-2 md:border-t-0 md:border-transparent md:!bg-transparent">
       <form className="stretch mx-2 flex max-w-[44rem] flex-row gap-3 last:mb-2 md:mx-4 md:last:mb-6 lg:mx-auto">
         <div className="relative flex h-full flex-1 items-stretch md:flex-col">
           <div className="">

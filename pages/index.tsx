@@ -4,6 +4,7 @@ import IssueForm from '@/components/IssueForm'
 import Loading from '@/components/Loading'
 import { ChatGPT as ChatGPTIcon, Delete as DeleteIcon } from '@/components/Icons'
 import markdownToHtml from '@/utils/markdownToHtml'
+import { ScrollToButtom } from '@/components/ScrollButton'
 
 const chatGPT = 'https://rip4ge.laf.dev/chatGPT'
 
@@ -102,7 +103,7 @@ export default function Home() {
         <meta name="description" content="For personal testing chatGPT" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <main className="flex h-screen w-full flex-col items-center justify-start overflow-y-auto p-4">
+      <main className="flex h-screen w-full flex-col items-center justify-start p-4">
         {loading && <Loading />}
         {list.length === 0 ? (
           <div className="flex h-full w-full flex-col items-center justify-center gap-2">
@@ -151,6 +152,7 @@ export default function Home() {
           </div>
         )}
         <IssueForm prompt={prompt} setPrompt={setPrompt} handleSubmit={handleSubmit} />
+        <ScrollToButtom />
       </main>
     </>
   )
